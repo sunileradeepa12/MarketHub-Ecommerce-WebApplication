@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Manager</title>
+
+  <!-- Link CSS -->
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <div class="container">
+    <h1>Product Manager</h1>
+
+    <!-- Add/Edit Product Form -->
+    <div class="card">
+      <h2>Add / Edit Product</h2>
+      <form th:action="@{/products}" th:object="${product}" method="post">
+        <div class="form-row">
+          <label for="name">Name:</label>
+          <input id="name" type="text" th:field="*{name}" required>
+        </div>
+
+        <div class="form-row">
+          <label for="price">Price:</label>
+          <input id="price" type="number" step="0.01" th:field="*{price}" required>
+        </div>
+
+        <div class="form-row">
+          <label for="description">Description:</label>
+          <input id="description" type="text" th:field="*{description}">
+        </div>
+
+        <div class="form-row">
+          <label for="stock">Stock:</label>
+          <input id="stock" type="number" th:field="*{stock}" required>
+        </div>
+
+        <div class="form-row">
+          <label for="category">Category:</label>
+          <input id="category" type="text" th:field="*{category}">
+        </div>
+
+        <div style="margin-top:10px;">
+          <button class="btn btn-primary" type="submit">Save</button>
+          <button class="btn btn-secondary" type="reset">Clear</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Product List -->
+    <h2>Products</h2>
+    <div class="card table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Stock</th>
+            <th>Category</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="p : ${products}">
+            <td th:text="${p.name}">Sample Name</td>
+            <td th:text="${p.price}">0.0</td>
+            <td th:text="${p.description}">Sample Description</td>
+            <td th:text="${p.stock}">0</td>
+            <td th:text="${p.category}">Category</td>
+            <td class="action-links">
+              <a th:href="@{/products/edit/{id}(id=${p.id})}" class="edit">Edit</a>
+              <a href="#" th:onclick="'return confirmDelete(' + ${p.id} + ');'" class="delete">Delete</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script th:src="@{/js/script.js}"></script>
+</body>
+</html>
